@@ -12,7 +12,7 @@ const initdb = async () =>
     },
   });
 
-
+// exports a controller function to edit the data stored in the database
 export const putDb = async (content) => {
   const jateDb = await openDB('jate', 1);
   const tx = jateDb.transaction('jate', 'readwrite');
@@ -22,7 +22,7 @@ export const putDb = async (content) => {
   console.log('data saved to the database', result);
 };
 
-// TODO: Add logic for a method that gets all the content from the database
+// exports a controller function to get the data stored in the database
 export const getDb = async () => {
   const jateDb = await openDB('jate', 1);
   const tx = jateDb.transaction('jate', 'readonly');
