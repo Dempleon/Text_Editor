@@ -18,12 +18,57 @@ module.exports = () => {
       path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
-      
+      // webpack plugin to generate our html file and inject the bundles
+      new HtmlWebpackPlugin({
+        template: './index.html',
+        title: 'Text Editor'
+      }),
+
+      // injects the custom service workers
+      new InjectManifest({
+        swSrc: './src-sw.js',
+        swDest: 'srw-sw.js'
+      }), 
+
+      // creates minifest.json file
+      new WebpackPwaManifest({
+        fingerprints: false,
+        injects: true,
+        name: 'Text Editor',
+        short_name: 'TxtEdit',
+        description: 'Edits text',
+        background_color: '#225ca3',
+        start_url: './',
+        publicPath: './',
+        icons: [
+          {
+            src: path.resolve('src/images/logo.pngj'),
+            sizes: [96, 128, 192, 256, 384, 512],
+            destination: path.join('asseets', 'icons')
+          },
+        ],
+      }),
     ],
 
     module: {
       rules: [
-        
+        {
+          test: /\.css$/i,
+          use: ['style-loader', 'css-loader'],
+        },
+        {
+          test: /\.m?js$/,
+          exclude: /node_modules/,
+          
+          //use babel loader in ES6
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env'],
+              plugins: ['@babel/plugin-proposal-object-rest-spread', '@babel/transform-runtime'],
+            },
+          },
+        },
       ],
     },
   };
