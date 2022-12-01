@@ -27,14 +27,37 @@ warmStrategyCache({
 registerRoute(({ request }) => request.mode === 'navigate', pageCache);
 
 // TODO: Implement asset caching
+
+const assetCache = new CacheFirst({
+  cacheName: 'asset-cache',
+  plugins: [
+    new CacheableResponsePlugin({
+      statuses: [0, 200],
+    }),
+  ]
+})
+
 registerRoute(
-  ({request}) => ['style', 'script', 'worker'].includes(request.destinatio),
-  new CacheFirst({
-    cacheName: 'asset-cache',
-    plugins: [
-      new CacheableResponsePlugin({
-        statuses: [0, 200],
-      }),
-    ],
-  })
-);
+  ({request}) => {
+    console.log("request:destination: ",request.destination)
+    return ['style', 'script', 'worker'].includes(request.destination)
+  }, assetCache
+)
+
+// registerRoute(
+//   ({request}) => ['style', 'script', 'worker'].includes(request.destination),
+//   new CacheFirst({
+//     cacheName: 'asset-cache',
+//     plugins: [
+//       new CacheableResponsePlugin({
+//         statuses: [0, 200],
+//       }),
+//     ],
+//   })
+// );
+
+// registerRoute(
+//   ({request}) => ['style', 'script', 'worker'].includes(request.destination),
+//   pageCache
+// );
+

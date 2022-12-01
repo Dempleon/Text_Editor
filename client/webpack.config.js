@@ -27,7 +27,7 @@ module.exports = () => {
       // injects the custom service workers
       new InjectManifest({
         swSrc: './src-sw.js',
-        swDest: 'srw-sw.js'
+        swDest: 'src-sw.js'
       }), 
 
       // creates minifest.json file
@@ -35,16 +35,16 @@ module.exports = () => {
         fingerprints: false,
         injects: true,
         name: 'Text Editor',
-        short_name: 'TxtEdit',
-        description: 'Edits text',
+        short_name: 'JATE',
+        description: 'Its just another text editor, it edits text',
         background_color: '#225ca3',
         start_url: './',
         publicPath: './',
         icons: [
           {
-            src: path.resolve('src/images/logo.pngj'),
+            src: path.resolve('src/images/logo.png'),
             sizes: [96, 128, 192, 256, 384, 512],
-            destination: path.join('asseets', 'icons')
+            destination: path.join('assets', 'icons')
           },
         ],
       }),
